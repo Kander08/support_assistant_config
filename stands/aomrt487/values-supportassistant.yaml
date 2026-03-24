@@ -1,0 +1,41 @@
+container:
+  repository: docker-internal.registry-ci.delta.sbrf.ru/ci00099030/ci00099030/supportassistant
+  tag: 1.0.D-00.000.05
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+service:
+  type: NodePort
+  port: 5000
+  targetPort: 5000
+  nodePort: 30001
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 300m
+    memory: 256Mi
+
+probes:
+  startup:
+    path: /health
+    port: 5000
+    periodSeconds: 2
+    failureThreshold: 30
+
+  readiness:
+    path: /health
+    port: 5000
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 3
+
+  liveness:
+    path: /health
+    port: 5000
+    periodSeconds: 10
+    timeoutSeconds: 2
+    failureThreshold: 3

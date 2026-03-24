@@ -1,0 +1,49 @@
+replicaCount: 1
+
+container:
+  repository: supportassistant
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 5000
+  targetPort: 5000
+  nodePort: 30001
+
+resources: {}
+
+probes:
+  startup:
+    path: /health
+    port: 5000
+    periodSeconds: 2
+    failureThreshold: 30
+
+  readiness:
+    path: /health
+    port: 5000
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 3
+
+  liveness:
+    path: /health
+    port: 5000
+    periodSeconds: 10
+    timeoutSeconds: 2
+    failureThreshold: 3
+
+podSecurityContext:
+  fsGroup: 1000
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  seccompProfile:
+    type: RuntimeDefault
