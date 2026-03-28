@@ -1,6 +1,6 @@
 container:
-  repository: docker-internal.registry-ci.delta.sbrf.ru/ci00099030/ci00099030/supportassistant
-  tag: 1.0.D-00.000.05
+  repository: kandemir08/test-registry
+  tag: 1.0.2
   pullPolicy: IfNotPresent
 
 replicaCount: 1
